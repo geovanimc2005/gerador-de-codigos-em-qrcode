@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Gerenciador de QR Codes com Excel</title>
+</head>
+<body>
+    <h1>Gerenciador de QR Codes</h1>
+
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="openTab(event, 'upload_tab')">Gerar QR Code</button>
+            <button class="tab-button" onclick="openTab(event, 'list_tab')">Meus QR Codes</button>
+            <button class="tab-button" onclick="openTab(event, 'data_tab')">Dados do Servidor</button>
+        </div>
+
+        <div id="upload_tab" class="tab-content active">
+            <h2>Gerar Novo QR Code a Partir de Excel</h2>
+            <form id="excelUploadForm">
+                <label for="excelFile">Selecione um arquivo Excel (.xlsx, .xls):</label><br>
+                <input type="file" id="excelFile" name="excel_file" accept=".xlsx, .xls" required><br><br>
+                <button type="submit">Gerar QR Code</button>
+            </form>
+            <p id="uploadMessage" class="message"></p>
+            
+            <div id="generatedQrCodeDetails" style="display: none;">
+                <h3>QR Code Gerado Recentemente:</h3>
+                <p><strong>ID:</strong> <span id="generatedQrId"></span></p>
+                <p><strong>Arquivo:</strong> <span id="generatedQrFilename"></span></p>
+                <img id="generatedQrImage" src="" alt="QR Code Gerado" style="max-width: 200px; height: auto;">
+                <p>Para visualizar este e outros QR Codes, vá para a aba "Meus QR Codes".</p>
+            </div>
+        </div>
+
+        <div id="list_tab" class="tab-content">
+            <h2>Meus QR Codes</h2>
+            <p>Lista de todos os QR Codes que você gerou:</p>
+            <div id="qrCodeList">
+                <p>Nenhum QR Code gerado ainda.</p>
+            </div>
+        </div>
+
+        <div id="data_tab" class="tab-content">
+            <h2>Dados do Servidor (Exemplo)</h2>
+            <p>Este é um exemplo de como buscar e exibir dados simples do servidor Flask:</p>
+            <pre id="server_data"></pre>
+        </div>
+    </div>
+
+    <div id="editQrCodeModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('editQrCodeModal')">&times;</span>
+            <h2>Editar QR Code</h2>
+            <p>Editando QR Code com ID: <span id="editQrId"></span></p>
+            <textarea id="editQrData" rows="10" cols="50" placeholder="Insira os novos dados para o QR Code aqui..."></textarea><br><br>
+            <button id="saveQrChangesButton">Salvar Alterações</button>
+            <p id="editMessage" class="message"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

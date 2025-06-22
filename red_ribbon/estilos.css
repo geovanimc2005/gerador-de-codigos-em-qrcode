@@ -1,0 +1,434 @@
+/* --- Estilos Gerais --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+h2 {
+    color: #34495e;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+h3 {
+    color: #34495e;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.4em;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+/* --- Container Principal --- */
+.tab-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+/* --- Botões de Abas --- */
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+.tab-button {
+    background-color: #f8f9fa;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #555;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 6px 6px 0 0; /* Bordas arredondadas no topo */
+    margin: 0 2px;
+}
+
+.tab-button:hover {
+    background-color: #e9ecef;
+    color: #333;
+}
+
+.tab-button.active {
+    background-color: #3498db;
+    color: white;
+    border-bottom: 2px solid #3498db; /* Linha de destaque na aba ativa */
+    font-weight: bold;
+}
+
+/* --- Conteúdo das Abas --- */
+.tab-content {
+    display: none; /* Escondido por padrão, JavaScript o torna visível */
+    padding: 20px 0;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* --- Mensagens de Feedback --- */
+.message {
+    padding: 12px 18px;
+    margin-top: 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95em;
+    text-align: center;
+    word-break: break-word; /* Garante que longas strings não estourem o container */
+}
+
+.message.info {
+    background-color: #e7f3fe;
+    color: #007bff;
+    border: 1px solid #b3d7ff;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #28a745;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #dc3545;
+    border: 1px solid #f5c6cb;
+}
+
+/* --- Estilos de Formulário (Upload de Excel) --- */
+form#excelUploadForm {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+form#excelUploadForm label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+form#excelUploadForm input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #fff;
+    box-sizing: border-box; /* Para incluir padding e border na largura total */
+    margin-bottom: 15px;
+}
+
+form#excelUploadForm button[type="submit"],
+#saveQrChangesButton { /* Aplica ao botão de salvar do modal também */
+    background-color: #28a745;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+form#excelUploadForm button[type="submit"]:hover,
+#saveQrChangesButton:hover {
+    background-color: #218838;
+}
+
+/* --- Detalhes do QR Code Gerado Recentemente --- */
+#generatedQrCodeDetails {
+    background-color: #e9f7ef;
+    border: 1px solid #c5e9d9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+#generatedQrCodeDetails img {
+    margin: 20px auto;
+    border: 2px solid #eee;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#generatedQrCodeDetails p {
+    margin-bottom: 8px;
+}
+
+/* --- Lista de QR Codes (Meus QR Codes) --- */
+#qrCodeList {
+    margin-top: 20px;
+}
+
+.qr-item {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.qr-item:hover {
+    transform: translateY(-3px);
+}
+
+.qr-item-details {
+    flex: 3; /* Ocupa mais espaço */
+    min-width: 250px; /* Garante tamanho mínimo para detalhes */
+}
+
+.qr-item-details h4 {
+    margin: 0 0 8px 0;
+    color: #3498db;
+    font-size: 1.1em;
+}
+
+.qr-item-details p {
+    margin: 0 0 5px 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.qr-item-actions {
+    flex: 1; /* Ocupa o restante do espaço */
+    min-width: 180px; /* Garante tamanho mínimo para botões */
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Espaçamento entre os botões */
+    flex-wrap: wrap; /* Quebra botões em várias linhas se não houver espaço */
+}
+
+.qr-item-actions button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    white-space: nowrap; /* Evita que o texto do botão quebre */
+}
+
+.qr-item-actions button:active {
+    transform: translateY(1px);
+}
+
+/* Cores específicas para os botões de ação */
+.view-button {
+    background-color: #007bff;
+    color: white;
+}
+.view-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-button {
+    background-color: #ffc107;
+    color: #333;
+}
+.edit-button:hover {
+    background-color: #e0a800;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* --- Dados do Servidor (Exemplo) --- */
+#server_data {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto; /* Adiciona scroll horizontal se o conteúdo for muito largo */
+    font-family: 'Courier New', Courier, monospace;
+    color: #444;
+    font-size: 0.9em;
+    white-space: pre-wrap; /* Preserva espaços e quebras de linha no JSON */
+}
+
+/* --- Estilos do Modal (Pop-up para Edição) --- */
+.modal {
+    display: none; /* Escondido por padrão, JS o exibe */
+    position: fixed; /* Posição fixa na tela */
+    z-index: 1000; /* Acima de todos os outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Largura total */
+    height: 100%; /* Altura total */
+    overflow: auto; /* Habilita scroll se o conteúdo exceder */
+    background-color: rgba(0,0,0,0.5); /* Fundo semi-transparente escuro */
+    display: flex; /* Usado com JS para centralizar */
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    width: 90%;
+    max-width: 650px; /* Largura máxima para o conteúdo do modal */
+    position: relative; /* Para posicionar o botão de fechar */
+    animation: fadeIn 0.3s ease-out; /* Animação suave de entrada */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.close-button {
+    color: #888;
+    font-size: 32px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #333;
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: #3498db;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.modal-content p {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+#editQrData {
+    width: calc(100% - 20px); /* Ajusta para padding */
+    min-height: 200px; /* Altura mínima para edição */
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #fff;
+    box-sizing: border-box;
+    font-family: 'Consolas', 'Monaco', monospace; /* Fonte monoespaçada para dados */
+    font-size: 0.9em;
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+/* --- Responsividade Básica --- */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .tab-container {
+        padding: 15px;
+        margin: 15px auto;
+    }
+
+    .tab-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tab-button {
+        margin-bottom: 5px;
+        border-radius: 6px;
+    }
+    
+    .tab-button.active {
+        border-bottom: none;
+    }
+
+    .qr-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .qr-item-details {
+        margin-bottom: 10px;
+    }
+
+    .qr-item-actions {
+        width: 100%; /* Ocupa a largura total em telas menores */
+        justify-content: flex-start;
+        gap: 8px; /* Reduz o espaçamento */
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .tab-button {
+        font-size: 1em;
+        padding: 10px 15px;
+    }
+
+    form#excelUploadForm input[type="file"],
+    form#excelUploadForm button[type="submit"],
+    #saveQrChangesButton {
+        font-size: 0.9em;
+        padding: 10px 15px;
+    }
+
+    .qr-item-actions button {
+        padding: 8px 10px;
+        font-size: 0.85em;
+    }
+}

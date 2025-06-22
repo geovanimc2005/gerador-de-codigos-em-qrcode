@@ -1,0 +1,1 @@
+<method-wrapper '__hash__' of QRCode object at 0x000001EA1715CEC0>
