@@ -1,29 +1,29 @@
 // Constante para a URL base do seu servidor Flask
 const API_BASE_URL = 'http://localhost:5000';
 
-// --- Funções de Gerenciamento de Abas ---
+
 function openTab(evt, tabName) {
     let i, tabContent, tabButtons;
 
-    // Esconde todo o conteúdo das abas
+
     tabContent = document.getElementsByClassName("tab-content");
     for (i = 0; i < tabContent.length; i++) {
         tabContent[i].style.display = "none";
     }
 
-    // Remove a classe "active" de todos os botões de aba
+
     tabButtons = document.getElementsByClassName("tab-button");
     for (i = 0; i < tabButtons.length; i++) {
         tabButtons[i].className = tabButtons[i].className.replace(" active", "");
     }
 
-    // Mostra o conteúdo da aba atual e adiciona a classe "active" ao botão clicado
+    
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 
-    // Lógica para carregar dados ou listas quando a aba específica é aberta
+  
     if (tabName === 'list_tab') {
-        listQrCodes(); // Chama a função para listar QR Codes
+        listQrCodes(); 
     } else if (tabName === 'data_tab') {
         fetchServerData(); // Chama a função para buscar dados de exemplo
     }
@@ -52,33 +52,33 @@ document.getElementById('excelUploadForm').addEventListener('submit', async func
     uploadMessage.className = "message info"; // Adiciona classe para estilo de informação
     generatedQrCodeDetails.style.display = 'none'; // Esconde detalhes de QR Code gerados anteriormente
 
-    const formData = new FormData(); // Cria um objeto FormData para enviar o arquivo
-    formData.append('excel_file', excelFile); // Adiciona o arquivo Excel ao FormData
+    const formData = new FormData();
+    formData.append('excel_file', excelFile);
 
     try {
         const response = await fetch(`${API_BASE_URL}/upload_and_generate_qr`, {
             method: 'POST',
-            body: formData // Envia o FormData como corpo da requisição POST
+            body: formData
         });
 
         const result = await response.json(); // Converte a resposta para JSON
 
-        if (response.ok) { // Verifica se a requisição foi bem-sucedida (status 2xx)
+        if (response.ok) {
             uploadMessage.textContent = result.message;
             uploadMessage.className = "message success"; // Estilo de sucesso
 
-            // Exibe os detalhes do QR Code gerado na aba "Gerar QR Code"
+            
             generatedQrId.textContent = result.id;
             generatedQrFilename.textContent = result.filename;
             generatedQrImage.src = `${API_BASE_URL}${result.qrcode_url}`; // Define a URL da imagem
             generatedQrImage.alt = `QR Code para ${result.filename}`;
             generatedQrCodeDetails.style.display = 'block';
 
-            // Limpa o input do arquivo após o upload bem-sucedido
+           
             document.getElementById('excelFile').value = '';
 
         } else {
-            // Lida com erros da API
+            
             uploadMessage.textContent = `Erro ao gerar QR Code: ${result.error || 'Erro desconhecido'}`;
             uploadMessage.className = "message error"; // Estilo de erro
         }
@@ -258,4 +258,5 @@ document.getElementById('saveQrChangesButton').addEventListener('click', async f
 document.addEventListener("DOMContentLoaded", function() {
     // Simula um clique no botão da primeira aba ativa para carregar o conteúdo inicial
     document.querySelector(".tab-button.active").click(); 
+
 });
