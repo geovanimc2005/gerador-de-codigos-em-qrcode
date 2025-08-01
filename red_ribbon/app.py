@@ -9,9 +9,7 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='.', static_url_path='') 
 
 # --- CONFIGURAÇÃO DE CORS ALTAMENTE PERMISSIVA PARA DESENVOLVIMENTO ---
-# Permite requisições de *qualquer* origem ('*'), incluindo 'null'.
-# Permite todos os cabeçalhos, métodos (incluindo OPTIONS para pré-voo CORS)
-# e expõe todos os cabeçalhos de resposta.
+
 # NÃO USE ESTA CONFIGURAÇÃO EM AMBIENTE DE PRODUÇÃO POR RAZÕES DE SEGURANÇA.
 CORS(app, resources={r"/*": {"origins": "*", "allow_headers": "*", "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"], "expose_headers": "*"}})
 
@@ -24,7 +22,6 @@ TEMP_FOLDER = 'temp'
 # Inicializa o gerenciador de QR Codes
 manager = QRCodeManager() 
 
-# Garante que as pastas necessárias existam ao iniciar o aplicativo
 if not os.path.exists(QRCODES_FOLDER):
     os.makedirs(QRCODES_FOLDER)
 if not os.path.exists(TEMP_FOLDER):
@@ -32,11 +29,7 @@ if not os.path.exists(TEMP_FOLDER):
 
 # --- Gerenciamento da Conexão com o Banco de Dados ---
 def get_db():
-    """
-    Retorna uma conexão de banco de dados SQLite para a requisição atual.
-    Se a conexão ainda não existe para esta requisição, uma nova é criada.
-    Também garante que a tabela `qrcodes` exista.
-    """
+  
     db = getattr(g, '_database', None) 
     if db is None:
         db = g._database = sqlite3.connect(DATABASE) 
@@ -56,10 +49,7 @@ def get_db():
 
 @app.teardown_appcontext
 def close_connection(exception):
-    """
-    Fecha a conexão com o banco de dados no final de cada contexto de aplicação (requisição).
-    Isso é crucial para liberar recursos e evitar problemas de threading.
-    """
+  
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
@@ -162,7 +152,7 @@ def delete_qrcode_route(qrcode_id):
         return jsonify({"message": f"QR Code {qrcode_id} deletado com sucesso."}), 200
     return jsonify({"error": f"QR Code {qrcode_id} não encontrado ou erro ao deletar."}), 404
 
-# --- NOVA ROTA: Obter dados de um QR Code para edição ---
+
 @app.route('/get_qrcode_data/<qrcode_id>', methods=['GET'])
 def get_qrcode_data(qrcode_id):
     """
@@ -180,10 +170,7 @@ def get_qrcode_data(qrcode_id):
 # --- NOVA ROTA: Atualizar um QR Code (deleta o antigo e cria um novo) ---
 @app.route('/update_qrcode/<qrcode_id>', methods=['POST'])
 def update_qrcode(qrcode_id):
-    """
-    Atualiza os dados de um QR Code existente. Isso envolve deletar o QR Code antigo (registro e arquivo)
-    e gerar um novo com os novos dados, recebendo um novo ID e nome de arquivo.
-    """
+   
     new_data = request.json.get('new_data_encoded')
     if not new_data:
         return jsonify({"error": "Novos dados para o QR Code não fornecidos."}), 400
@@ -191,11 +178,10 @@ def update_qrcode(qrcode_id):
     db_conn = get_db()
     cursor = db_conn.cursor()
 
-    # Primeiro, tenta deletar o QR Code antigo (arquivo e registro no DB)
     if not manager.delete_qrcode(qrcode_id, cursor):
         return jsonify({"error": "QR Code original não encontrado para atualização."}), 404
     
-    # Gera um novo QR Code com os novos dados. Ele será registrado no DB com um novo ID/filename.
+ 
     new_qrcode_id, new_filename = manager.generate_and_save_qrcode(new_data, cursor)
     db_conn.commit() # Confirma as alterações no banco de dados
 
@@ -217,11 +203,12 @@ def get_example_data():
     Rota de exemplo para demonstrar a busca de dados simples do servidor.
     """
     dados = { 
-        "mensagem": "Este é um dado de exemplo do servidor Flask.",
+        "mensagem": "Este é um dado de exemplo do servidor Flask. ele armazena as suas informações em um servidor local, no seu computador, ou seja usando o programa você sabe com o que está lidando",
         "versao_api": "1.0",
         "data_atual": "2025-06-19" 
     }
     return jsonify(dados)
 
 if __name__ == "__main__":
+
     app.run(debug=True)
